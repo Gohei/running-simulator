@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Running Simulator</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <h1>Running Simulator</h1>
+
+    <div class="settings">
+      <div class="runner-settings">
+        <h2>Runner A Settings</h2>
+        <div class="slider-container">
+          <label for="directionA">Direction:</label>
+          <select id="directionA">
+            <option value="-1" selected>Clockwise</option>
+            <option value="1">Counterclockwise</option>
+          </select>
+        </div>
+        <div class="slider-container">
+          <label for="speedASlider"
+            >Speed: <span id="speedALabel" class="slider-value">5</span></label
+          >
+          <div class="slider-wrapper">
+            <input
+              type="range"
+              id="speedASlider"
+              min="1"
+              max="10"
+              value="5"
+              step="1"
+            />
+          </div>
+        </div>
+        <div class="slider-container">
+          <label for="lapsASlider"
+            >Laps: <span id="lapsALabel" class="slider-value">10</span></label
+          >
+          <div class="slider-wrapper">
+            <input
+              type="range"
+              id="lapsASlider"
+              min="1"
+              max="20"
+              value="10"
+              step="1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="runner-settings">
+        <h2>Runner B Settings</h2>
+        <div class="slider-container">
+          <label for="directionB">Direction:</label>
+          <select id="directionB">
+            <option value="-1">Clockwise</option>
+            <option value="1" selected>Counterclockwise</option>
+          </select>
+        </div>
+        <div class="slider-container">
+          <label for="speedBSlider"
+            >Speed: <span id="speedBLabel" class="slider-value">6</span></label
+          >
+          <div class="slider-wrapper">
+            <input
+              type="range"
+              id="speedBSlider"
+              min="1"
+              max="10"
+              value="6"
+              step="1"
+            />
+          </div>
+        </div>
+        <div class="slider-container">
+          <label for="lapsBSlider"
+            >Laps: <span id="lapsBLabel" class="slider-value">12</span></label
+          >
+          <div class="slider-wrapper">
+            <input
+              type="range"
+              id="lapsBSlider"
+              min="1"
+              max="20"
+              value="12"
+              step="1"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <canvas id="simulationCanvas" width="640" height="640"></canvas>
+
+    <div>
+      <button id="startButton">Start</button>
+      <button id="pauseResumeButton">Pause</button>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/runner.js"></script>
+    <script src="js/simulation.js"></script>
+    <script src="js/drawer.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
