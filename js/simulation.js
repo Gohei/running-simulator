@@ -26,6 +26,11 @@ class Simulation {
 
   updateCrossCounting(prevAAngle, prevBAngle, currentAAngle, currentBAngle) {
     if (
+      this.checkBoundaryCross(prevAAngle, currentAAngle) &&
+      this.checkBoundaryCross(prevBAngle, currentBAngle)
+    ) {
+      // Do Nothing
+    } else if (
       this.checkBoundaryCross(prevAAngle, currentAAngle) ||
       this.checkBoundaryCross(prevBAngle, currentBAngle)
     ) {
