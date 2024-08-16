@@ -2,25 +2,43 @@ class Simulation {
   constructor(runnerA, runnerB) {
     this.runnerA = runnerA;
     this.runnerB = runnerB;
-    this.reset();
+    this.resetCrossCounting();
+    this.resetLapCounting();
   }
 
-  reset() {
-    this.runnerA.reset();
-    this.runnerB.reset();
+  resetCrossCounting() {
     this.crossCount = 0;
     this.aAhead = this.runnerA.positionAngle > this.runnerB.positionAngle;
     this.isFirstUpdate = true;
-    this.isHold = false;
   }
 
-  checkBoundaryCross(prevA, prevB, currA, currB) {
+  resetLapCounting() {
+    this.runnerA.reset();
+    this.runnerB.reset();
+  }
+
+  checkBoundaryCross(prevAngle, currentAngle) {
     return (
-      (prevA > 270 && currA < 90) ||
-      (prevA < 90 && currA > 270) ||
-      (prevB > 270 && currB < 90) ||
-      (prevB < 90 && currB > 270)
+      (prevAngle > 270 && currentAngle < 90) ||
+      (prevAngle < 90 && currentAngle > 270)
     );
+  }
+
+  updateCrossCounting(prevAAngle, prevBAngle, currentAAngle, currentBAngle) {
+    if (
+      this.checkBoundaryCross(prevAAngle, currentAAngle) ||
+      this.checkBoundaryCross(prevBAngle, currentBAngle)
+    ) {
+      this.aAhead = !this.aAhead;
+    }
+
+    const currentAAhead = currentAAngle > currentBAngle;
+    if (!this.isFirstUpdate && this.aAhead !== currentAAhead) {
+      this.crossCount++;
+    }
+    this.aAhead = currentAAhead;
+
+    this.isFirstUpdate = false;
   }
 
   update() {
@@ -30,41 +48,14 @@ class Simulation {
     this.runnerA.checkLapCompletion(prevAAngle);
     this.runnerB.checkLapCompletion(prevBAngle);
 
-    if (this.runnerA.positionAngle === this.runnerB.positionAngle) {
-      this.isHold = true;
-      return;
-    }
-
-    if (this.isHold) {
-      this.isHold = false;
-      const currentAAhead =
-        this.runnerA.positionAngle > this.runnerB.positionAngle;
-      if (this.aAhead !== currentAAhead) {
-        this.crossCount++;
-      }
-      this.aAhead = currentAAhead;
-      return;
-    }
-
-    if (
-      this.checkBoundaryCross(
+    if (!this.isFinished) {
+      this.updateCrossCounting(
         prevAAngle,
         prevBAngle,
         this.runnerA.positionAngle,
         this.runnerB.positionAngle
-      )
-    ) {
-      this.aAhead = this.runnerA.positionAngle > this.runnerB.positionAngle;
-    } else {
-      const currentAAhead =
-        this.runnerA.positionAngle > this.runnerB.positionAngle;
-      if (!this.isFirstUpdate && this.aAhead !== currentAAhead) {
-        this.crossCount++;
-      }
-      this.aAhead = currentAAhead;
+      );
     }
-
-    this.isFirstUpdate = false;
   }
 
   get isFinished() {
